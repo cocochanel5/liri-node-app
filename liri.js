@@ -12,17 +12,6 @@ var spotify = new Spotify(keys.spotify);
 var userChoice = process.argv[2];
 var userInput = process.argv[3];
 
-//For Loop for user input past 3//
-
-// for (var i = 3; i < process.argv.length; i++) {
-//     if (i > 3 && i < process.argv.length) {
-//         userInput += "+" + process.argv[i]; 
-//     }
-//     else {
-//         userInput += process.argv[i];
-//     }
-// }
-
 switch (userChoice) {
     case "concert-this":
         concertThis();
@@ -76,23 +65,23 @@ function spotifyThis () {
           return console.log('Error occurred: ' + err);
         }
         else{
-            console.log(data); 
-        }
+            // console.log(data); 
+        };
         var userSong = data.tracks.items;
         console.log("Artist: " + userSong[0].artists[0].name);
         console.log("Song Name: " + userSong[0].name);
         console.log("Preview Link: " + userSong[0].preview_url);
         console.log("Album: " + userSong[0].album.name); 
       
-      });
+      })
 };
 
 //OMDB Axios Call//
 function movieThis() {
 if (!userInput) {
     userInput = "Mr. Nobody";
-    console.log("If you haven't watched 'Mr. Nobody,' then you should: <http://www.imdb.com/title/tt0485947/>");
-    console.log("It's on Netflix!");
+    return console.log("If you haven't watched 'Mr. Nobody,' then you should: <http://www.imdb.com/title/tt0485947/> \nIt's on Netflix!");
+    
 }
 
 var nodeArgs = process.argv;
@@ -121,4 +110,19 @@ axios.get("http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=tril
     console.log("Plot: " + response.data.Plot);
     console.log("Actors: " + response.data.Actors);
   });
+};
+
+function doThis () {
+    fs.readFile("random.txt", "utf8", function(err, data) {
+
+        if (err) {
+            logThis(err);
+        }
+
+        var readArray = data.split(",");
+
+        userInput = readArray[1];
+
+        spotifyThis(userInput);
+    })
 };
